@@ -45,3 +45,5 @@ logging:
   level:
     org.springframework: INFO
     com.quiz.system: DEBUG
+key:
+  secret: ${SECRET}

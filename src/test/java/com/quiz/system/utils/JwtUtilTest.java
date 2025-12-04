@@ -2,19 +2,17 @@ package com.quiz.system.utils;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest(properties = "key.secret=your256bitsecret-your256bitsecret-your256bitsecret")
 class JwtUtilTest {
 
+    @Autowired
     private JwtUtil jwtUtil;
-
-    @BeforeEach
-    void setUp() {
-        jwtUtil = new JwtUtil();
-    }
 
     @Test
     void testGenerateTokenNotNull() {
@@ -35,11 +33,10 @@ class JwtUtilTest {
     }
 
     @Test
-    void testTokenExpiration(){
+    void testTokenExpiration() {
         String email = "test@example.com";
         String token = jwtUtil.generateToken(email);
 
-        // Check that token expiration is in the future
         long now = System.currentTimeMillis();
         long exp = Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor("your256bitsecret-your256bitsecret-your256bitsecret".getBytes()))

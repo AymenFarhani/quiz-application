@@ -20,7 +20,7 @@
         <sonar.projectName>Quiz System</sonar.projectName>
         <sonar.host.url>http://localhost:9000</sonar.host.url>
         <!--suppress UnresolvedMavenProperty -->
-        <sonar.token>${env.SONAR_TOKEN}</sonar.token>
+        <sonar.token>${SONAR_TOKEN}</sonar.token>
     </properties>
 
     <dependencies>
