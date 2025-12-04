@@ -10,7 +10,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET = System.getenv("SECRET");
+    private final String SECRET = System.getenv("SECRET");
     private static final long EXPIRATION = 1000 * 60 * 60 * 24l; // 24h
 
     private Key getSigningKey() {
