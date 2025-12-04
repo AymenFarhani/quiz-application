@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/insurance-stats
-    username: postgres       # replace with your DB username
-    password: postgres   # replace with your DB password
+    username: ${USERNAME}       # replace with your DB username
+    password: ${PASSWORD}   # replace with your DB password
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
