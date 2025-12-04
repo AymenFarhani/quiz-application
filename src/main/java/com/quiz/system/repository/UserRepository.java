@@ -16,7 +16,6 @@ public class UserRepository {
 
     public User findByEmail(String email){
         String GET_USER_SQL = "SELECT * FROM users WHERE email = ?";
-        User user = jdbcTemplate.queryForObject(GET_USER_SQL, new BeanPropertyRowMapper<>(User.class), email);
-        return user;
+        return jdbcTemplate.queryForObject(GET_USER_SQL, new BeanPropertyRowMapper<>(User.class), email);
     }
 }

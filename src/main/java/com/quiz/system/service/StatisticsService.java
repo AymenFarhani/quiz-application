@@ -3,6 +3,7 @@ package com.quiz.system.service;
 import com.quiz.system.dto.QuestionDto;
 import com.quiz.system.dto.ResponseDto;
 import com.quiz.system.dto.StatisticDto;
+import com.quiz.system.exception.QuizAlreadySubmittedException;
 import com.quiz.system.model.Answer;
 import com.quiz.system.model.Statistics;
 import com.quiz.system.model.Submission;
@@ -81,7 +82,7 @@ public class StatisticsService {
 
     private void isUserExists(User user) {
         if (submissionRepository.existsByUserId(user.getId())) {
-            throw new RuntimeException("User has already submitted the quiz");
+            throw new QuizAlreadySubmittedException("User has already submitted the quiz");
         }
     }
 

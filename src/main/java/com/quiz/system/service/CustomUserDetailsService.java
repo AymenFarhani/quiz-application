@@ -1,6 +1,5 @@
 package com.quiz.system.service;
 
-import com.quiz.system.model.CustomUserDetails;
 import com.quiz.system.model.User;
 import com.quiz.system.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
-        UserDetails userDetails = new UserDetails() {
+        return new UserDetails() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
                 return List.of();
@@ -42,6 +41,5 @@ public class CustomUserDetailsService implements UserDetailsService {
                 return user.getEmail();
             }
         };
-        return userDetails;
     }
 }

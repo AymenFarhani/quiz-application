@@ -18,8 +18,7 @@ public class StatisticsRepository {
 
     public String findByQuestionNumber(Integer questionNumber) {
         String GET_QUESTION_SQL = "SELECT text FROM questions WHERE id = ?";
-        String question = jdbcTemplate.queryForObject(GET_QUESTION_SQL, String.class, questionNumber);
-        return question;
+        return jdbcTemplate.queryForObject(GET_QUESTION_SQL, String.class, questionNumber);
     }
 
     public Statistics findStatisticsByQuestionNumber(Integer questionNumber) {

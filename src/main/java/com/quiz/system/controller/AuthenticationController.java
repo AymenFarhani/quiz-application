@@ -1,5 +1,6 @@
 package com.quiz.system.controller;
 
+import com.quiz.system.exception.CredentialsInvalidException;
 import com.quiz.system.model.User;
 import com.quiz.system.repository.UserRepository;
 import com.quiz.system.utils.JwtUtil;
@@ -28,7 +29,7 @@ public class AuthenticationController {
         User user = userRepo.findByEmail(request.getEmail());
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid email or password");
+            throw new CredentialsInvalidException("Invalid email or password");
         }
 
         return jwtUtil.generateToken(user.getEmail());

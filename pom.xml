@@ -19,7 +19,7 @@
         <sonar.projectKey>quiz-system</sonar.projectKey>
         <sonar.projectName>Quiz System</sonar.projectName>
         <sonar.host.url>http://localhost:9000</sonar.host.url>
-        <sonar.login>admin</sonar.login>
+        <sonar.token>squ_fd8409eb0462f6a4d5d2ca0cdb943b8f7692870b</sonar.token>
     </properties>
 
     <dependencies>
