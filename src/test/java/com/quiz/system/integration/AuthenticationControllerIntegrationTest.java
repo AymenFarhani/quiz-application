@@ -62,7 +62,7 @@ class AuthenticationControllerIntegrationTest {
         when(passwordEncoder.matches("password", "hashedPassword")).thenReturn(true);
         when(jwtUtil.generateToken("test@example.com")).thenReturn("jwt-token");
 
-        mockMvc.perform(post("/auth/login")
+        mockMvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userRequest)))
                 .andExpect(status().isOk())
@@ -78,7 +78,7 @@ class AuthenticationControllerIntegrationTest {
         when(userRepository.findByEmail("test@example.com")).thenReturn(userFromDb);
         when(passwordEncoder.matches("password", "hashedPassword")).thenReturn(false);
 
-        mockMvc.perform(post("/auth/login")
+        mockMvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userRequest)))
                 .andExpect(status().isBadRequest())
