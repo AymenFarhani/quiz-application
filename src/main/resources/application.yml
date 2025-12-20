@@ -32,7 +32,7 @@ spring:
 
   # Optional: server port
 server:
-  port: 8080
+  port: 8081
 
 # OpenAPI / Swagger configuration
 springdoc:
