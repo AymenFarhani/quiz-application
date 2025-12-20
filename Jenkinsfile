@@ -12,17 +12,11 @@ pipeline {
             }
         }
 
-        stage('Build & Test') {
-            steps {
-                sh 'mvn clean verify'
-            }
-        }
-
-        stage('SonarQube Analysis') {
+        stage('Build & SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonarqube') {
-                    // Run ONLY SonarQube analysis, separate from build/test
-                    sh 'mvn sonar:sonar -DskipTests'
+                    // Run build + tests + SonarQube analysis in one step
+                    sh 'mvn clean verify sonar:sonar'
                 }
             }
         }
@@ -30,7 +24,7 @@ pipeline {
         stage('Quality Gate') {
             steps {
                 // Increase timeout - SonarQube analysis can take time
-                timeout(time: 10, unit: 'MINUTES') {
+                timeout(time: 30, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
             }
@@ -38,7 +32,7 @@ pipeline {
 
         stage('Package') {
             when {
-                // Only package if quality gate passes
+                // Only package if Quality Gate passed
                 expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
             }
             steps {
@@ -53,6 +47,9 @@ pipeline {
         }
         failure {
             echo 'Pipeline failed!'
+        }
+        aborted {
+            echo 'Pipeline aborted! Check SonarQube server or timeout settings.'
         }
     }
 }
