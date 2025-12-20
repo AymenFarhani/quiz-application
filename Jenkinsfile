@@ -5,13 +5,7 @@ pipeline {
         maven 'Maven'
     }
 
-    environment {
-        SONAR_HOST_URL = 'http://sonarqube:9000'
-        SONAR_TOKEN = 'squ_a11308fecf9f8ea1bba7e67a882949bdb3f9de6e'
-    }
-
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
@@ -25,27 +19,40 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-             steps {
-                            sh '''
-                              mvn sonar:sonar \
-                                -Dsonar.host.url=$SONAR_HOST_URL \
-                                -Dsonar.login=$SONAR_TOKEN
-                            '''
-                        }
+            steps {
+                withSonarQubeEnv('sonarqube') {
+                    // Run ONLY SonarQube analysis, separate from build/test
+                    sh 'mvn sonar:sonar -DskipTests'
+                }
+            }
         }
 
         stage('Quality Gate') {
             steps {
-                timeout(time: 1, unit: 'MINUTES') {
+                // Increase timeout - SonarQube analysis can take time
+                timeout(time: 10, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
             }
         }
 
         stage('Package') {
+            when {
+                // Only package if quality gate passes
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
             steps {
                 sh 'mvn package -DskipTests'
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
         }
     }
 }
