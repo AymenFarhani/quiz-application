@@ -6,7 +6,8 @@ pipeline {
     }
 
     environment {
-        SONARQUBE_ENV = 'sonarqube'
+        SONAR_HOST_URL = 'http://sonarqube:9000'
+        SONAR_TOKEN = 'squ_a11308fecf9f8ea1bba7e67a882949bdb3f9de6e'
     }
 
     stages {
@@ -24,11 +25,13 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('sonarqube') {
-                    sh 'mvn sonar:sonar'
-                }
-            }
+             steps {
+                            sh '''
+                              mvn sonar:sonar \
+                                -Dsonar.host.url=$SONAR_HOST_URL \
+                                -Dsonar.login=$SONAR_TOKEN
+                            '''
+                        }
         }
 
         stage('Quality Gate') {
