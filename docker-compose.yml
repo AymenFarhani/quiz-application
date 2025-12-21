@@ -31,26 +31,11 @@ services:
     networks:
       - cicd
 
-  postgres:
-    image: postgres:16
-    container_name: postgres
-    environment:
-      POSTGRES_DB: quizdb
-      POSTGRES_USER: quiz
-      POSTGRES_PASSWORD: quiz
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    networks:
-      - cicd
-
 volumes:
   jenkins_home:
   sonar_data:
   sonar_logs:
   sonar_extensions:
-  pgdata:
 
 networks:
   cicd:
