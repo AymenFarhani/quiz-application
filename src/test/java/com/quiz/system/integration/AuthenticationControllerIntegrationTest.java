@@ -75,7 +75,7 @@ class AuthenticationControllerIntegrationTest {
 
     @Test
     void testLogin_InvalidPassword() throws Exception {
-        when(userRepository.findByEmail("test@example.com")).thenReturn(userFromDb);
+        when(userRepository.findByEmail("test1@example.com")).thenReturn(userFromDb);
         when(passwordEncoder.matches("password", "hashedPassword")).thenReturn(false);
 
         mockMvc.perform(post("/api/v1/auth/login")
@@ -85,7 +85,7 @@ class AuthenticationControllerIntegrationTest {
                 .andExpect(result -> assertInstanceOf(RuntimeException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("Invalid email or password", result.getResolvedException().getMessage()));
 
-        verify(userRepository, times(1)).findByEmail("test@example.com");
+        verify(userRepository, times(1)).findByEmail("test1@example.com");
         verify(passwordEncoder, times(1)).matches("password", "hashedPassword");
         verify(jwtUtil, never()).generateToken(anyString());
     }
