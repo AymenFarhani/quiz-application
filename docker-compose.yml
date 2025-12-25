@@ -35,6 +35,7 @@ services:
     build:
       context: .
       dockerfile: jenkins/Dockerfile
+    image: jenkins:latest
     container_name: jenkins
     ports:
       - "8080:8080"
