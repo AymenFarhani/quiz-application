@@ -1,5 +1,36 @@
 services:
 
+  quiz-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: quiz-app
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/quizdb
+      SPRING_DATASOURCE_USERNAME: quiz
+      SPRING_DATASOURCE_PASSWORD: quiz
+    depends_on:
+      - postgres
+    networks:
+      - cicd
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_DB: quizdb
+      POSTGRES_USER: quiz
+      POSTGRES_PASSWORD: quiz
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - cicd
+
   jenkins:
     build:
       context: .
@@ -36,6 +67,7 @@ volumes:
   sonar_data:
   sonar_logs:
   sonar_extensions:
+  postgres_data:
 
 networks:
   cicd:
